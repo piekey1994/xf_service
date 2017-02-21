@@ -9,11 +9,15 @@ def getlist():
     return xunfengList+mylist
 
 def getXunfengList():
-    return urlopen('https://sec.ly.com/xunfeng/getlist')
+    f=urlopen('https://sec.ly.com/xunfeng/getlist')
+    j=f.read()
+    if j:
+        return j
+    return ''
 
 def getMyList():
     return ''
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
