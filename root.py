@@ -1,5 +1,5 @@
 from flask import Flask
-from urllib.request import urlopen
+from urllib import urlopen
 app = Flask(__name__)
 
 @app.route('/getlist')
