@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+       
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <a class="waves-effect waves-light btn" href="javascript:update()"><i class="material-icons left">cloud</i>更新</a>
+        <table>
+        <thead>
+          <tr>
+              <th data-field="unicode">unicode</th>
+              <th data-field="name">name</th>
+              <th data-field="info">info</th>
+              <th data-field="author">author</th>
+              <th data-field="pushtime">pushtime</th>
+              <th data-field="location">location</th>
+              <th data-field="coverage">coverage</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            {% for plugin in plugins %}
+                <tr>
+                    <td>{{ plugin['unicode'] }}</td>
+                    <td>{{ plugin['name'] }}</td>
+                    <td>{{ plugin['info'] }}</td>
+                    <td>{{ plugin['author'] }}</td>
+                    <td>{{ plugin['pushtime'] }}</td>
+                    <td>{{ plugin['location'] }}</td>
+                    <td>{{ plugin['coverage'] }}</td>
+                </tr> 
+            {% endfor %}
+        </tbody>
+      </table>
+      <script>
+        function update()
+        {
+          $.get("/updatelist",function(data,status){
+            alert(data);
+            location.reload();
+          });
+        }
+      </script>
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+       <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+   
+   
+    </body>
+  </html>
