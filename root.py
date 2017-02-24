@@ -1,9 +1,10 @@
 #coding:utf-8
-import json
-from flask import Flask
-from flask import render_template
+from flask import Flask,render_template,request,send_from_directory,abort
 from urllib import urlopen
 from model import *
+from datetime import datetime
+from flask import jsonify
+import os
 app = Flask(__name__)
 
 @app.route('/update')
@@ -27,12 +28,26 @@ def updatelist():
 @app.route('/getlist')
 def getlist():
     #读取数据库生存json文件
-    return ''
+    plugins=getAllPlugins()
+    retjsonlist=[]
+    for p in plugins:
+        pdict={'unicode':p.unicode,
+            'name':p.name,
+            'info':p.info,
+            'author':p.author,
+            'pushtime':p.pushtime.strftime('%Y-%m-%d %H:%M:%S'),
+            'location':p.location,
+            'coverage':p.coverage}
+        retjsonlist.append(pdict)
+    return jsonify(retjsonlist)
 
-@app.route('/installplugin')
+@app.route('/getplugin')
 def installplugin():
     #返回文件给它
-    return ''
+    filename=request.args.get('name')
+    if os.path.isfile(os.path.join('plugins', filename)):
+        return send_from_directory('plugins',filename,as_attachment=True)
+    abort(404)
 
 def getXunfengList():
     f=urlopen('https://sec.ly.com/xunfeng/getlist')
