@@ -7,24 +7,27 @@ from flask import jsonify
 import os
 app = Flask(__name__)
 
+#更新页面
 @app.route('/update')
 def update():
     plugins=getAllPlugins()
     return render_template('update.html',plugins=plugins)
 
+#更新
 @app.route('/updatelist')
 def updatelist():
     xunfengList=getXunfengList()
     pluginList=xunfengList.strip()
     if pluginList:
-        #try:
+        try:
             remotelist = json.loads(pluginList)
             for i in remotelist:
                 insertPlugin(i['unicode'],i['name'],i['info'],i['author'],i['pushtime'],i['location'],i['coverage'])
             return 'success'
-        #except:
-        #    return 'failed'
+        except:
+            return 'failed'
 
+#获取列表json
 @app.route('/getlist')
 def getlist():
     #读取数据库生存json文件
@@ -41,6 +44,7 @@ def getlist():
         retjsonlist.append(pdict)
     return jsonify(retjsonlist)
 
+#下载插件
 @app.route('/getplugin')
 def installplugin():
     #返回文件给它
@@ -48,6 +52,7 @@ def installplugin():
     if os.path.isfile(os.path.join('plugins', filename)):
         return send_from_directory('plugins',filename,as_attachment=True)
     abort(404)
+
 
 def getXunfengList():
     f=urlopen('https://sec.ly.com/xunfeng/getlist')
