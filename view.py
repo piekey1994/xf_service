@@ -5,6 +5,7 @@ from model import *
 from datetime import datetime
 from flask import jsonify
 import os
+import json
 app = Flask(__name__)
 
 #更新页面
@@ -19,13 +20,13 @@ def updatelist():
     xunfengList=getXunfengList()
     pluginList=xunfengList.strip()
     if pluginList:
-        try:
+        #try:
             remotelist = json.loads(pluginList)
             for i in remotelist:
                 insertPlugin(i['unicode'],i['name'],i['info'],i['author'],i['pushtime'],i['location'],i['coverage'])
             return 'success'
-        except:
-            return 'failed'
+       # except:
+        #    return 'failed'
 
 #获取列表json
 @app.route('/getlist')

@@ -1,1 +1,1 @@
-nohup python root.py &
+nohup python View.py &
